@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.devtoolsKsp)
 }
 
+apply(from = rootProject.file("shared_dependencies.gradle"))
+
 android {
     namespace = "com.example.movieku"
     compileSdk = 34
@@ -52,33 +54,8 @@ android {
 
 dependencies {
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(project(":core"))
 
-//    Glide
-    implementation(libs.glide)
-
-    /* retrofit */
-    implementation(libs.retrofit)
-    implementation (libs.converter.gson)
-
-    // ViewModel
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-
-    //  Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
 }
 
 // Allow references to generated code

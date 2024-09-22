@@ -24,8 +24,8 @@ class MovieRepository @Inject constructor(
     override fun getAllMovie(): Flow<Resource<List<Movie>>> {
         return object : NetworkBoundResource<List<Movie>, List<DataMovieResult>>(){
             override fun loadFromDB(): Flow<List<Movie>> {
-                return localDataSource.getAllMovie().map {
-                    DataMapper.mapEntitiesToDomain(it)
+                return localDataSource.getAllMovieAndGenre().map {
+                    DataMapper.mapMovieEntitiesToDomain(it)
                 }
             }
 
@@ -34,8 +34,10 @@ class MovieRepository @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: List<DataMovieResult>) {
-                val movieList = DataMapper.mapResponseToEntites(data)
+                val movieList = DataMapper.mapMovieResponseToMovieEntites(data)
+                val genreList = DataMapper.mapMovieResponseToGenreEntities(data)
                 localDataSource.insertMovie(movieList)
+                localDataSource.insertGenre(genreList)
             }
 
             override fun shouldFetch(data: List<Movie>?): Boolean {

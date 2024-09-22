@@ -51,4 +51,6 @@ data class DataMovieResult(
     @field:SerializedName("vote_count")
     val vote_count: Long,
 
+    var genre_list: List<String> = emptyList()
+
 )

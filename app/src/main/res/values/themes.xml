@@ -6,4 +6,15 @@
     </style>
 
     <style name="Theme.Movieku" parent="Base.Theme.Movieku" />
+    
+    <style name="CustomShapeAppearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomRight">16dp</item>
+        <item name="cornerSizeBottomLeft">16dp</item>
+    </style>
+
+    <style name="CustomToolbarTitleTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="fontFamily">@font/montserrat_semibold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

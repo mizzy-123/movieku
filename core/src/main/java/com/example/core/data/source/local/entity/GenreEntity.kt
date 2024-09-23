@@ -11,7 +11,7 @@ data class GenreEntity(
     @ColumnInfo(name = "genreId")
     val genreId: Long = 0,
 
-    @ColumnInfo(name = "moveId")
+    @ColumnInfo(name = "movieId")
     val movieId: Long,
 
     @ColumnInfo(name = "name")

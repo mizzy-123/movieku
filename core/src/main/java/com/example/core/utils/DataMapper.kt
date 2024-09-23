@@ -17,7 +17,9 @@ object DataMapper {
                 overview = it.movie.overview,
                 vote_average = it.movie.vote_average,
                 vote_count = it.movie.vote_count,
-                genre_list = it.genre
+                genre_list = it.genre,
+                release_date = it.movie.release_date,
+                popularity = it.movie.popularity
             )
         }
 
@@ -31,7 +33,9 @@ object DataMapper {
                 poster_path = it.poster_path,
                 overview = it.overview,
                 vote_average = it.vote_average,
-                vote_count = it.vote_count
+                vote_count = it.vote_count,
+                release_date = it.release_date,
+                popularity = it.popularity
             )
             movieList.add(movie)
         }
@@ -42,12 +46,12 @@ object DataMapper {
         val genreList = ArrayList<GenreEntity>()
         input.forEach { dataMovie ->
             dataMovie.genre_list.forEach { genre ->
-                val genre = GenreEntity(
+                val genreResult = GenreEntity(
                     movieId = dataMovie.id,
                     name = genre
                 )
 
-                genreList.add(genre)
+                genreList.add(genreResult)
             }
         }
 

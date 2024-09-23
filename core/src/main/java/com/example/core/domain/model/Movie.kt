@@ -5,6 +5,8 @@ import com.example.core.data.source.local.entity.GenreEntity
 data class Movie(
     val movieId: Long,
     val title: String,
+    val popularity: Double,
+    val release_date: String,
     val original_title: String,
     val poster_path: String,
     val overview: String,

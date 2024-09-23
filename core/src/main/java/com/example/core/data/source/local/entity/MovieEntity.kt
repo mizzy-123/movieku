@@ -15,6 +15,12 @@ data class MovieEntity(
     @ColumnInfo(name = "title")
     val title: String,
 
+    @ColumnInfo(name = "popularity")
+    val popularity: Double,
+
+    @ColumnInfo(name = "release_date")
+    val release_date: String,
+
     @ColumnInfo(name = "original_title")
     val original_title: String,
 

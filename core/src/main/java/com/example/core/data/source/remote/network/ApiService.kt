@@ -1,10 +1,12 @@
 package com.example.core.data.source.remote.network
 
 import com.example.core.BuildConfig
+import com.example.core.data.source.remote.response.DetailMovieResponse
 import com.example.core.data.source.remote.response.GenreListResponse
 import com.example.core.data.source.remote.response.MovieListResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -21,4 +23,11 @@ interface ApiService {
     @Headers("Authorization: Bearer ${BuildConfig.TOKEN_MOVIEDB}")
     @GET("genre/movie/list")
     suspend fun getGenreList(): GenreListResponse
+
+    @Headers("Authorization: Bearer ${BuildConfig.TOKEN_MOVIEDB}")
+    @GET("movie/{movieId}")
+    suspend fun getDetailMovie(
+        @Path("movieId") movieId: Long,
+        @Query("language") language: String = "en-US"
+    ): DetailMovieResponse
 }

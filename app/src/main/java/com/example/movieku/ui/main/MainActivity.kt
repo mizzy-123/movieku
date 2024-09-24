@@ -1,13 +1,16 @@
 package com.example.movieku.ui.main
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.core.data.Resource
 import com.example.core.domain.model.Movie
@@ -29,6 +32,11 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Mengubah status bar menjadi putih dan teks ikon menjadi gelap
+        window.statusBarColor = Color.WHITE
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+
+        // Menambahkan padding agar layout tidak tertutup oleh status bar
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -50,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         movieAdapter.setOnClickCallback(object : MovieAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Movie) {
                 val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                intent.putExtra(DetailActivity.MOVIE_ID, data.movieId)
                 startActivity(intent)
             }
 
@@ -60,11 +69,24 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.movie.observe(this){ movie ->
             if(movie != null){
                 when(movie){
-                    is Resource.Loading -> {}
+                    is Resource.Loading -> {
+                        binding.apply {
+                            loadingMovie.visibility = View.VISIBLE
+                            rvMovie.visibility = View.GONE
+                        }
+                    }
                     is Resource.Success -> {
+                        binding.apply {
+                            loadingMovie.visibility = View.GONE
+                            rvMovie.visibility = View.VISIBLE
+                        }
                         movieAdapter.setData(movie.data)
                     }
                     is Resource.Error -> {
+                        binding.apply {
+                            loadingMovie.visibility = View.GONE
+                            rvMovie.visibility = View.VISIBLE
+                        }
                         Log.e("MainActivity", movie.message.toString())
                     }
                 }

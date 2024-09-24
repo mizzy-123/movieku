@@ -5,6 +5,7 @@ import com.example.core.data.source.remote.network.ApiResponse
 import com.example.core.data.source.remote.network.ApiService
 import com.example.core.data.source.remote.response.DataGenre
 import com.example.core.data.source.remote.response.DataMovieResult
+import com.example.core.data.source.remote.response.DetailMovieResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -44,7 +45,20 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
 //                }
             } catch (e: Exception){
                 emit(ApiResponse.Error(e.message.toString()))
-                Log.e("RemoteDataSource", e.message.toString())
+                Log.e("RemoteDataSource", "getAllMovie: ${e.message.toString()}")
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun getDetailMovie(movieId: Long): Flow<ApiResponse<DetailMovieResponse>> {
+        return flow {
+            try {
+                val responseDetailMovie = apiService.getDetailMovie(movieId)
+                emit(ApiResponse.Success(responseDetailMovie))
+
+            } catch (e: Exception){
+                emit(ApiResponse.Error(e.message.toString()))
+                Log.e("RemoteDataSource", "getDetailMovie: ${e.message.toString()}")
             }
         }.flowOn(Dispatchers.IO)
     }

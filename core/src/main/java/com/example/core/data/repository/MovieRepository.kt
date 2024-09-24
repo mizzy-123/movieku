@@ -6,11 +6,14 @@ import com.example.core.data.source.local.LocalDataSource
 import com.example.core.data.source.remote.RemoteDataSource
 import com.example.core.data.source.remote.network.ApiResponse
 import com.example.core.data.source.remote.response.DataMovieResult
+import com.example.core.data.source.remote.response.DetailMovieResponse
 import com.example.core.domain.model.Movie
 import com.example.core.domain.repository.IMovieRepository
 import com.example.core.utils.AppExecutors
 import com.example.core.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -46,4 +49,25 @@ class MovieRepository @Inject constructor(
 
         }.asFlow()
     }
+
+    override fun getDetailMovie(movieId: Long): Flow<Resource<DetailMovieResponse>> {
+
+        return flow {
+            emit(Resource.Loading())
+
+            when(val apiResponse = remoteDataSource.getDetailMovie(movieId).first()){
+                is ApiResponse.Success -> {
+                    emit(Resource.Success(apiResponse.data))
+                }
+                is ApiResponse.Empty -> {
+
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error(apiResponse.errorMessage))
+                }
+            }
+        }
+    }
+
+
 }

@@ -32,9 +32,9 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Mengubah status bar menjadi putih dan teks ikon menjadi gelap
-        window.statusBarColor = Color.WHITE
-        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+
+        // teks dan ikon status bar putih
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
 
         // Menambahkan padding agar layout tidak tertutup oleh status bar
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

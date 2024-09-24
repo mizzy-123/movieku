@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "Movieku"
 include(":app")
 include(":core")
+include(":favorite")

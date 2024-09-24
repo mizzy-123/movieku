@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // teks dan ikon status bar putih
+        window.statusBarColor = ContextCompat.getColor(this, R.color.black2)
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
 
         // Menambahkan padding agar layout tidak tertutup oleh status bar
@@ -46,6 +48,10 @@ class MainActivity : AppCompatActivity() {
         initComponent()
         initData()
         setAction()
+    }
+
+    private fun moveToFavoriteActivity(){
+        startActivity(Intent(this, Class.forName("com.example.favorite.FavoriteActivity")))
     }
 
     private fun initComponent(){
@@ -63,6 +69,16 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+        binding.toolBar.setOnMenuItemClickListener { menu ->
+            when (menu.itemId){
+                R.id.menu_favorite -> {
+                    moveToFavoriteActivity()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun initData(){

@@ -1,7 +1,5 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.dynamic.feature)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     alias(libs.plugins.hilt.android)
@@ -12,26 +10,12 @@ plugins {
 apply(from = rootProject.file("shared_dependencies.gradle"))
 
 android {
-    namespace = "com.example.movieku"
+    namespace = "com.example.favorite"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.movieku"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        val properties = gradleLocalProperties(rootDir, providers)
-        buildConfigField("String", "TOKEN_MOVIEDB", "\"${properties.get("TOKEN_MOVIEDB")}\"")
-        buildConfigField("String", "BASE_URL_MOVIEDB", "\"${properties.get("BASE_URL_MOVIEDB")}\"")
-    }
-
-    buildFeatures {
-        viewBinding = true
-        buildConfig = true
     }
 
     buildTypes {
@@ -50,17 +34,19 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    dynamicFeatures += setOf(":favorite")
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
 }
 
 dependencies {
-
+    implementation(project(":app"))
     implementation(project(":core"))
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-
 }
 
 // Allow references to generated code

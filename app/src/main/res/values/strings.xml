@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Movieku</string>
+    <string name="what_do_yo_want_to_watch">What do yo want to watch?</string>
 </resources>

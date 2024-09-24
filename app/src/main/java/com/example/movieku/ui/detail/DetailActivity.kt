@@ -40,7 +40,7 @@ class DetailActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        
+
         val bundle: Bundle? = intent.extras
         if (bundle !== null){
             val movieId = bundle.getLong(MOVIE_ID)

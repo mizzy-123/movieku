@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -24,6 +25,7 @@ class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
     private val detailViewModel: DetailViewModel by viewModels()
+    private var movieId: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +45,8 @@ class DetailActivity : AppCompatActivity() {
 
         val bundle: Bundle? = intent.extras
         if (bundle !== null){
-            val movieId = bundle.getLong(MOVIE_ID)
-            initData(movieId)
+            movieId = bundle.getLong(MOVIE_ID)
+            initData()
         }
 
         setAction()
@@ -59,7 +61,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun initData(movieId: Long){
+    private fun initData(){
 
         detailViewModel.getDetailMovie(movieId).observe(this){ result ->
             if (result != null){
@@ -104,6 +106,18 @@ class DetailActivity : AppCompatActivity() {
                         Log.e("DetailActivity", result.message.toString())
                     }
                 }
+            }
+        }
+
+        detailViewModel.cekFavoriteMovieById(movieId).observe(this){ result ->
+            if (result){
+                binding.fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.baseline_favorite_24))
+            } else {
+                binding.fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.baseline_favorite_border_24))
+            }
+
+            binding.fab.setOnClickListener {
+                detailViewModel.setFavorite(movieId, !result)
             }
         }
     }

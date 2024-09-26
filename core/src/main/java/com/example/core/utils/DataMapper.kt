@@ -7,6 +7,11 @@ import com.example.core.data.source.remote.response.DataMovieResult
 import com.example.core.domain.model.Movie
 
 object DataMapper {
+
+    fun mapMovieEntitiesToDomainAndGetFavorite(input: MovieEntity): Boolean {
+        return input.is_favorite
+    }
+
     fun mapMovieEntitiesToDomain(input: List<MovieAndGenreEntity>): List<Movie> =
         input.map {
             Movie(
@@ -19,7 +24,8 @@ object DataMapper {
                 vote_count = it.movie.vote_count,
                 genre_list = it.genre,
                 release_date = it.movie.release_date,
-                popularity = it.movie.popularity
+                popularity = it.movie.popularity,
+                is_favorite = it.movie.is_favorite
             )
         }
 

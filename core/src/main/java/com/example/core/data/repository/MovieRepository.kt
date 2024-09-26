@@ -3,6 +3,8 @@ package com.example.core.data.repository
 import com.example.core.data.NetworkBoundResource
 import com.example.core.data.Resource
 import com.example.core.data.source.local.LocalDataSource
+import com.example.core.data.source.local.entity.MovieAndGenreEntity
+import com.example.core.data.source.local.entity.MovieEntity
 import com.example.core.data.source.remote.RemoteDataSource
 import com.example.core.data.source.remote.network.ApiResponse
 import com.example.core.data.source.remote.response.DataMovieResult
@@ -69,5 +71,20 @@ class MovieRepository @Inject constructor(
         }
     }
 
+    override fun setFavorite(movieId: Long, isFavorite: Boolean) {
+        appExecutors.diskIO().execute { localDataSource.setFavorite(movieId, isFavorite) }
+    }
+
+    override fun getAllFavoriteMovie(): Flow<List<Movie>> {
+        return localDataSource.getAllFavoriteMovie().map {
+            DataMapper.mapMovieEntitiesToDomain(it)
+        }
+    }
+
+    override fun cekFavoriteMovieById(movieId: Long): Flow<Boolean> {
+        return localDataSource.cekFavoriteMovieById(movieId).map {
+            DataMapper.mapMovieEntitiesToDomainAndGetFavorite(it)
+        }
+    }
 
 }

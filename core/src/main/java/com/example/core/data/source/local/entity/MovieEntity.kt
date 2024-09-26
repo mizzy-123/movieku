@@ -35,4 +35,7 @@ data class MovieEntity(
 
     @ColumnInfo(name = "vote_count")
     val vote_count: Long,
+
+    @ColumnInfo(name = "is_favorite")
+    var is_favorite: Boolean = false
 )

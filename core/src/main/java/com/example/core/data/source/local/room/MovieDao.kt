@@ -21,6 +21,15 @@ interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGenre(genre: List<GenreEntity>)
 
+    @Query("SELECT * FROM movie where is_favorite = 1")
+    fun getAllFavoriteMovie(): Flow<List<MovieAndGenreEntity>>
+
+    @Query("UPDATE movie SET is_favorite = :isFavorite WHERE movieId = :movieId")
+    fun setFavoriteMovie(movieId: Long, isFavorite: Boolean)
+
+    @Query("SELECT * FROM movie WHERE movieId = :movieId LIMIT 1")
+    fun cekFavoriteMovieById(movieId: Long): Flow<MovieEntity>
+
     @Transaction
     @Query("SELECT * FROM movie")
     fun getAllMovieAndGenre(): Flow<List<MovieAndGenreEntity>>

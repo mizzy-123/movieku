@@ -12,5 +12,6 @@ data class Movie(
     val overview: String,
     val vote_average: Float,
     val vote_count: Long,
-    val genre_list: List<GenreEntity>
+    val genre_list: List<GenreEntity>,
+    val is_favorite: Boolean
 )

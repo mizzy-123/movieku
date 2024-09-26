@@ -16,11 +16,9 @@ import com.example.core.ui.MovieAdapter
 import com.example.favorite.databinding.ActivityFavoriteBinding
 import com.example.movieku.di.FavoriteModuleDependencies
 import com.example.movieku.ui.detail.DetailActivity
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
 
-@AndroidEntryPoint
 class FavoriteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFavoriteBinding
@@ -55,7 +53,7 @@ class FavoriteActivity : AppCompatActivity() {
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
 
         // Menambahkan padding agar layout tidak tertutup oleh status bar
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(com.example.movieku.R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -87,11 +85,11 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     private fun initData(){
-//        favoriteViewModel.getAllFavoriteMovie().observe(this){ movie ->
-//            if (movie != null){
-//                movieAdapter.setData(movie)
-//            }
-//        }
+        favoriteViewModel.getAllFavoriteMovie().observe(this){ movie ->
+            if (movie != null){
+                movieAdapter.setData(movie)
+            }
+        }
     }
 
 }

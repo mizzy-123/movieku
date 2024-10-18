@@ -1,41 +1,20 @@
+# This config was automatically generated from your source code
+# Stacks detected: deps:java:.,tool:gradle:
 version: 2.1
 
-executors:
-  android-executor:
-    docker:
-      - image: circleci/openjdk:17-jdk-buster # Menggunakan image dengan JDK 17
-    working_directory: ~/repo
-    environment:
-      ANDROID_HOME: /opt/android/sdk # Lokasi default Android SDK pada container CircleCI
-      PATH: /opt/android/sdk/platform-tools:/opt/android/sdk/tools/bin:$PATH
-
 orbs:
-  android: circleci/android@0.2.1
+  android: circleci/android@2.4.0
 
 jobs:
-  build:
-    executor: android-executor
+  build-and-test:
+    executor:
+      name: android/android-machine
+      tag: default
+
     steps:
-      - checkout:
-          path: ~/repo # Menentukan working directory untuk checkout
-          git:
-            clone:
-              token: GITHUB_TOKEN
-      - run:
-          name: Install Android SDK tools
-          command: |
-            sudo apt-get update
-            sudo apt-get install -y wget unzip
-            wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
-            mkdir -p /opt/android/sdk/cmdline-tools
-            unzip commandlinetools-linux-8512546_latest.zip -d /opt/android/sdk/cmdline-tools
-            yes | /opt/android/sdk/cmdline-tools/cmdline-tools/bin/sdkmanager --licenses
-            /opt/android/sdk/cmdline-tools/cmdline-tools/bin/sdkmanager "platform-tools" "platforms;android-31"
+      - checkout
       - restore_cache:
           key: android-orb-v1-
-      - run:
-          name: Create local.properties
-          command: echo "sdk.dir=/opt/android/sdk" > local.properties
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
@@ -61,3 +40,14 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk/debug/
           destination: artifact-file
+#      - run:
+#          name: Start Emulator and Run Instrumentation Tests
+#          command: ./gradlew core:connectedAndroidTest
+#          system-image: system-images;android-34;google_apis;x86
+#      - store_test_results:
+#          path: app/build/instrumentation-test-results
+
+workflows:
+  sample:
+    jobs:
+      - build-and-test

@@ -3,7 +3,7 @@ version: 2.1
 executors:
   android-executor:
     docker:
-      - image: circleci/openjdk:17-jdk-buster  # Menggunakan image dengan JDK 17
+      - image: circleci/openjdk:17-jdk-buster # Menggunakan image dengan JDK 17
     working_directory: ~/repo
 
 orbs:
@@ -11,17 +11,15 @@ orbs:
 
 jobs:
   build:
-    executor: android-executor  # Gunakan executor yang sudah didefinisikan
-    environment:
-      ANDROID_HOME: /opt/android/sdk  # Set ANDROID_HOME path
-      PATH: /opt/android/sdk/tools:/opt/android/sdk/platform-tools:$PATH
+    executor: android-executor
     steps:
-      - checkout
+      - checkout:
+          path: ~/repo # Menentukan working directory untuk checkout
+          git:
+            clone:
+              token: GITHUB_TOKEN
       - restore_cache:
-          key: android-orb-v1-{{ checksum "build.gradle" }}  # Cache berdasarkan checksum file gradle
-      - run:
-          name: Create local.properties
-          command: echo "sdk.dir=/opt/android/sdk" > local.properties
+          key: android-orb-v1-
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
@@ -33,7 +31,6 @@ jobs:
           paths:
             - ~/.android/build-cache
             - ~/.android/cache
-            - /opt/android/sdk  # Simpan cache SDK
       - run:
           name: Run Build
           command: ./gradlew build

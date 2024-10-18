@@ -7,6 +7,7 @@ executors:
     working_directory: ~/repo
     environment:
       ANDROID_HOME: /opt/android/sdk # Lokasi default Android SDK pada container CircleCI
+      PATH: /opt/android/sdk/platform-tools:/opt/android/sdk/tools/bin:$PATH
 
 orbs:
   android: circleci/android@0.2.1
@@ -20,6 +21,16 @@ jobs:
           git:
             clone:
               token: GITHUB_TOKEN
+      - run:
+          name: Install Android SDK tools
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y wget unzip
+            wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
+            mkdir -p /opt/android/sdk/cmdline-tools
+            unzip commandlinetools-linux-8512546_latest.zip -d /opt/android/sdk/cmdline-tools
+            yes | /opt/android/sdk/cmdline-tools/cmdline-tools/bin/sdkmanager --licenses
+            /opt/android/sdk/cmdline-tools/cmdline-tools/bin/sdkmanager "platform-tools" "platforms;android-31"
       - restore_cache:
           key: android-orb-v1-
       - run:

@@ -5,6 +5,8 @@ executors:
     docker:
       - image: circleci/openjdk:17-jdk-buster # Menggunakan image dengan JDK 17
     working_directory: ~/repo
+    environment:
+      ANDROID_HOME: /opt/android/sdk # Lokasi default Android SDK pada container CircleCI
 
 orbs:
   android: circleci/android@0.2.1
@@ -13,11 +15,8 @@ jobs:
   build:
     executor: android-executor
     steps:
-      - checkout:
-          path: ~/repo # Menentukan working directory untuk checkout
-          git:
-            clone:
-              token: GITHUB_TOKEN
+      - checkout
+      - android/setup # Setup SDK Android
       - restore_cache:
           key: android-orb-v1-
       - run:

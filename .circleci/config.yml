@@ -15,8 +15,11 @@ jobs:
   build:
     executor: android-executor
     steps:
-      - checkout
-      - android/setup # Setup SDK Android
+      - checkout:
+          path: ~/repo # Menentukan working directory untuk checkout
+          git:
+            clone:
+              token: GITHUB_TOKEN
       - restore_cache:
           key: android-orb-v1-
       - run:

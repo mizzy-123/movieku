@@ -1,22 +1,21 @@
 version: 2.1
 
+executors:
+  android-executor:
+    docker:
+      - image: circleci/openjdk:17-jdk-buster # Menggunakan image dengan JDK 17
+    working_directory: ~/repo
+
 orbs:
   android: circleci/android@0.2.1
 
 jobs:
   build:
-    executor: android/android
+    executor: android-executor
     steps:
       - checkout
       - restore_cache:
           key: android-orb-v1-
-      - run:
-          name: Install JDK 17
-          command: |
-            sudo apt-get update
-            sudo apt-get install openjdk-17-jdk
-            sudo update-alternatives --config java
-            java -version
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew

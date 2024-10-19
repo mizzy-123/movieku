@@ -22,8 +22,8 @@ android {
         consumerProguardFiles("consumer-rules.pro")
 
         val properties = gradleLocalProperties(rootDir, providers)
-        buildConfigField("String", "TOKEN_MOVIEDB", "\"${properties.get("TOKEN_MOVIEDB")}\"")
-        buildConfigField("String", "BASE_URL_MOVIEDB", "\"${properties.get("BASE_URL_MOVIEDB")}\"")
+        buildConfigField("String", "TOKEN_MOVIEDB", "\"${properties["TOKEN_MOVIEDB"]}\"")
+        buildConfigField("String", "BASE_URL_MOVIEDB", "\"${properties["BASE_URL_MOVIEDB"]}\"")
     }
 
     buildTypes {

@@ -15,6 +15,7 @@
             android:id="@+id/img_image_card"
             android:layout_width="95dp"
             android:layout_height="120dp"
+            android:contentDescription="TODO"
             android:scaleType="centerCrop"
             tools:src="@tools:sample/avatars"/>
     </androidx.cardview.widget.CardView>
@@ -43,6 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="3sp"
+                android:contentDescription="TODO"
                 android:src="@drawable/star"/>
             <TextView
                 android:id="@+id/tv_rating"
@@ -62,6 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="3sp"
+                android:contentDescription="TODO"
                 android:src="@drawable/ticket"/>
             <TextView
                 android:id="@+id/tv_genre"
@@ -81,6 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="3sp"
+                android:contentDescription="TODO"
                 android:src="@drawable/calendarblank"/>
             <TextView
                 android:id="@+id/tv_release"

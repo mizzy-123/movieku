@@ -17,4 +17,6 @@ dependencies {
 
     // Glide
     implementation(libs.glide)
+
+    debugImplementation(libs.leakcanary.android)
 }

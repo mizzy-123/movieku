@@ -60,8 +60,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-
-    debugImplementation(libs.leakcanary.android)
 }
 
 // Allow references to generated code

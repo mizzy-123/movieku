@@ -25,7 +25,7 @@
 
 # Prevent R8 from leaving Data object members always null
 -keepclassmembers,allowobfuscation class * {
-@com.google.gson.annotations.SerializedName <fields>;
+    @com.google.gson.annotations.SerializedName <fields>;
 }
 
 
@@ -39,7 +39,7 @@
 
 # Retain service method parameters when optimizing.
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
-@retrofit2.http.* <methods>;
+    @retrofit2.http.* <methods>;
 }
 
 # Ignore annotation used for build tooling.
@@ -66,11 +66,11 @@
 ##---------------Begin: proguard configuration for Glide ----------
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep class * extends com.bumptech.glide.module.AppGlideModule {
-<init>(...);
+    <init>(...);
 }
 -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
-**[] $VALUES;
-public *;
+    **[] $VALUES;
+    public *;
 }
 -keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
 *** rewind();
@@ -105,4 +105,11 @@ public *;
 # Keep classes with @Provides annotations
 -keep class * {
     @dagger.Provides <methods>;
+}
+
+# Keep all model classes that may be serialized by Gson
+-keep class com.example.core.** { *; }
+-keepclassmembers class com.example.core.** {
+    <init>(...);
+    @com.google.gson.annotations.SerializedName <fields>;
 }

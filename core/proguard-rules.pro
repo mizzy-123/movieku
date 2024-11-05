@@ -31,7 +31,7 @@
 
 # Prevent R8 from leaving Data object members always null
 -keepclassmembers,allowobfuscation class * {
-@com.google.gson.annotations.SerializedName <fields>;
+    @com.google.gson.annotations.SerializedName <fields>;
 }
 
 
@@ -45,7 +45,7 @@
 
 # Retain service method parameters when optimizing.
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
-@retrofit2.http.* <methods>;
+    @retrofit2.http.* <methods>;
 }
 
 # Ignore StringConcatFactory.
@@ -95,14 +95,14 @@
 ##---------------Begin: proguard configuration for Glide ----------
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep class * extends com.bumptech.glide.module.AppGlideModule {
-<init>(...);
+    <init>(...);
 }
 -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
-**[] $VALUES;
+    **[] $VALUES;
 public *;
 }
 -keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
-*** rewind();
+    *** rewind();
 }
 
 # Keep Hilt components
@@ -135,3 +135,35 @@ public *;
 -keep class * {
     @dagger.Provides <methods>;
 }
+
+-keep class com.example.movieku.** { *; }
+-keep class com.example.core.domain.usecase.** { *; }
+-keepclassmembers class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
+
+-keep class com.example.core.data.source.local.** { *; }
+-keepclassmembers class com.example.core.data.source.local.** { *; }
+
+-keep class com.example.core.data.source.remote.response.** { *; }
+-keepclassmembers class com.example.core.data.source.remote.response.** { *; }
+
+-keep class com.example.core.di.** { *; }
+-keepclassmembers class com.example.core.di.** { *; }
+
+-keep class com.example.core.domain.usecase.** { *; }
+-keepclassmembers class com.example.core.domain.usecase.** { *; }
+
+-keep class com.example.core.ui.** { *; }
+-keepclassmembers class com.example.core.ui.** { *; }
+
+-keepclassmembers class ** {
+    *** get*(...);
+    *** set*(...);
+}
+
+-keepclassmembers class ** {
+    public <init>(...);
+}
+
+-keep class com.google.gson.** { *; }

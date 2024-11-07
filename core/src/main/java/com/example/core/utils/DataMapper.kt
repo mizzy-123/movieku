@@ -4,6 +4,8 @@ import com.example.core.data.source.local.entity.GenreEntity
 import com.example.core.data.source.local.entity.MovieAndGenreEntity
 import com.example.core.data.source.local.entity.MovieEntity
 import com.example.core.data.source.remote.response.DataMovieResult
+import com.example.core.data.source.remote.response.DetailMovieResponse
+import com.example.core.domain.model.DetailMovie
 import com.example.core.domain.model.Movie
 
 object DataMapper {
@@ -62,5 +64,18 @@ object DataMapper {
         }
 
         return genreList
+    }
+
+    fun detailMovieResponseToDomain(input: DetailMovieResponse): DetailMovie {
+        return DetailMovie(
+            title = input.title,
+            overview = input.overview,
+            vote_average = input.vote_average,
+            release_date = input.release_date,
+            poster_path = input.poster_path,
+            genres = input.genres,
+            backdrop_path = input.backdrop_path,
+            runtime = input.runtime
+        )
     }
 }

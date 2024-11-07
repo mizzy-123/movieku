@@ -9,6 +9,7 @@ import com.example.core.data.source.remote.RemoteDataSource
 import com.example.core.data.source.remote.network.ApiResponse
 import com.example.core.data.source.remote.response.DataMovieResult
 import com.example.core.data.source.remote.response.DetailMovieResponse
+import com.example.core.domain.model.DetailMovie
 import com.example.core.domain.model.Movie
 import com.example.core.domain.repository.IMovieRepository
 import com.example.core.utils.AppExecutors
@@ -52,14 +53,14 @@ class MovieRepository @Inject constructor(
         }.asFlow()
     }
 
-    override fun getDetailMovie(movieId: Long): Flow<Resource<DetailMovieResponse>> {
+    override fun getDetailMovie(movieId: Long): Flow<Resource<DetailMovie>> {
 
         return flow {
             emit(Resource.Loading())
 
             when(val apiResponse = remoteDataSource.getDetailMovie(movieId).first()){
                 is ApiResponse.Success -> {
-                    emit(Resource.Success(apiResponse.data))
+                    emit(Resource.Success(DataMapper.detailMovieResponseToDomain(apiResponse.data)))
                 }
                 is ApiResponse.Empty -> {
 
